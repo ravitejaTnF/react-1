@@ -1,0 +1,12 @@
+.infoBox{
+    min-height: 48px;
+    background-color: palevioletred;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    width: 50%;
+    border-radius: 0px;
+    margin-top: 16px;
+}
