@@ -1,39 +1,43 @@
 import React from "react";
 import Button from "../Button/Button";
 import styles from "./Adduser.module.css";
-import { useState } from "react";
+import { useState,useRef } from "react";
 import Errormodal from "../Errormodal/Errormodal";
 const Adduser = (props) => {
-  const [username,setUsername] = useState('');
-  const [age,setAge] = useState('');
+  const nameInputRef = useRef();
+  const ageInputRef = useRef();
+  // const [username,setUsername] = useState('');
+  // const [age,setAge] = useState('');
   const [error,setError] = useState(false);
   const [errorText,setErrorText] = useState('');
-  const usernameHandler = (event) => {
-    setUsername(event.target.value);
-  };
-  const ageHandler = (event) => {
-    setAge(event.target.value);
-  };
+  // const usernameHandler = (event) => {
+  //   setUsername(event.target.value);
+  // };
+  // const ageHandler = (event) => {
+  //   setAge(event.target.value);
+  // };
   const sendFormData = () => {
-    if(username.trim().length == 0 || age.trim().length == 0){
+    const usernameRef = nameInputRef.current.value;
+    const ageRef = ageInputRef.current.value;
+    if(usernameRef.trim().length == 0 || ageRef.trim().length == 0){
       setErrorText({title:'Empty Inputs Found',message:'Please enter valid input data, Non-empty values'});
       setError(true);
       return;
     }
-    if(age < 0){
+    if(ageRef < 0){
       setErrorText({title:'Negative age',message:'Age should be greater than 0'});
       setError(true);
       return;
     }
     setError(false);
     const userData = {
-        name:username,
-        age:age,
+        name:usernameRef,
+        age:ageRef,
         id: Math.random().toString()
     }
     props.updateData(userData);
-    setUsername('');
-    setAge('');
+    ageInputRef.current.value = '';
+    nameInputRef.current.value = '';
   }
   const disableModal = () => {
     setError(false);
@@ -48,8 +52,9 @@ const Adduser = (props) => {
             className="form-control"
             id="username"
             placeholder="enter username"
-            value={username}
-            onChange={usernameHandler}
+            // value={usernameRef}
+            // onChange={usernameHandler}
+            ref={nameInputRef}
           />
         </div>
         <div className="ageBox">
@@ -59,8 +64,9 @@ const Adduser = (props) => {
             className="form-control"
             id="age"
             placeholder="enter age"
-            value={age}
-            onChange={ageHandler}
+            // value={ageRef}
+            // onChange={ageHandler}
+            ref={ageInputRef}
           />
         </div>
         <Button onClick={sendFormData}>Add user</Button>
